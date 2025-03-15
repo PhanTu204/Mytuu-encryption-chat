@@ -26,7 +26,7 @@ public class UserService {
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())){
-            throw new RuntimeException("Passwords do not match");
+            throw new RuntimeException("Passwords do not match!");
         }
 
         return userRepository.save(user);
@@ -49,4 +49,29 @@ public class UserService {
     
         return userRepository.save(existingUser);
     }
+
+    //Auth for User
+    public User authenticateUser(String identifier, String password) {
+        Optional<User> userOptional = userRepository.findByUsername(identifier);
+        
+        if (userOptional.isEmpty()) {
+            userOptional = userRepository.findByEmail(identifier);
+        }
+        
+        if (userOptional.isEmpty()) {
+            userOptional = userRepository.findByPhoneNumber(identifier);
+        }
+    
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User not found!");
+        }
+    
+        User user = userOptional.get();
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid password!");
+        }
+        
+        return user;
+    }
+    
 }
