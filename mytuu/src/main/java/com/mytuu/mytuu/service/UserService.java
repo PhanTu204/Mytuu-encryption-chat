@@ -1,5 +1,7 @@
 package com.mytuu.mytuu.service;
 
+import com.mytuu.mytuu.dto.RegisterDTO;
+import com.mytuu.mytuu.dto.UserUpdateDTO;
 import com.mytuu.mytuu.model.User;
 import com.mytuu.mytuu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,58 +22,63 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public User saveUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()).isPresent()){
+    // API đăng ký với DTO
+    public User registerUser(RegisterDTO registerDTO) {
+        if (userRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists!");
         }
 
-        if (!user.getPassword().equals(user.getConfirmPassword())){
+        if (!registerDTO.getPassword().equals(registerDTO.getConfirmPassword())) {
             throw new RuntimeException("Passwords do not match!");
         }
 
-        return userRepository.save(user);
+        // Tạo User từ DTO
+        User newUser = new User();
+        newUser.setUsername(registerDTO.getUsername());
+        newUser.setPassword(registerDTO.getPassword());
+
+        return userRepository.save(newUser);
     }
 
-    //Update information for users
-    public User updateUserInfo(Long userId, User updatedUser) {
+    // API cập nhật thông tin user
+    public User updateUserInfo(Long userId, UserUpdateDTO updateDTO) {
         Optional<User> userOptional = userRepository.findById(userId);
-    
+
         if (userOptional.isEmpty()) {
-            throw new RuntimeException("User not found!");
+            throw new RuntimeException("User not exist!");
         }
-    
+
         User existingUser = userOptional.get();
-        existingUser.setFullName(updatedUser.getFullName());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
-        existingUser.setGender(updatedUser.getGender());
-    
+        if (updateDTO.getFullName() != null) existingUser.setFullName(updateDTO.getFullName());
+        if (updateDTO.getEmail() != null) existingUser.setEmail(updateDTO.getEmail());
+        if (updateDTO.getPhoneNumber() != null) existingUser.setPhoneNumber(updateDTO.getPhoneNumber());
+        if (updateDTO.getDateOfBirth() != null) existingUser.setDateOfBirth(updateDTO.getDateOfBirth());
+        if (updateDTO.getGender() != null) existingUser.setGender(updateDTO.getGender());
+
         return userRepository.save(existingUser);
     }
 
-    //Auth for User
+    // API đăng nhập 
     public User authenticateUser(String identifier, String password) {
         Optional<User> userOptional = userRepository.findByUsername(identifier);
-        
+
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByEmail(identifier);
         }
-        
+
         if (userOptional.isEmpty()) {
             userOptional = userRepository.findByPhoneNumber(identifier);
         }
-    
+
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User not found!");
         }
-    
+
         User user = userOptional.get();
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("Invalid password!");
         }
-        
+
         return user;
     }
-    
 }

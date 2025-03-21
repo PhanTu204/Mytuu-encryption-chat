@@ -1,0 +1,5 @@
+import math
+phi_N = 42624
+candidates = [3525, 5525, 6525]
+valid_e = [e for e in candidates if math.gcd(e, phi_N) == 1]
+print(valid_e)

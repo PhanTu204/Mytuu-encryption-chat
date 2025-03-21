@@ -38,15 +38,15 @@ public class User {
     }
 
     private String fullName;
-
+    
     @Email
     private String email;
-
+    
     private String phoneNumber;
-
+    
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
-
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    
+    private String gender;
+    
 }

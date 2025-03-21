@@ -1,9 +1,10 @@
 package com.mytuu.mytuu.controller;
 
+import com.mytuu.mytuu.dto.UserUpdateDTO;
+import com.mytuu.mytuu.dto.LoginRequestDTO;
+import com.mytuu.mytuu.dto.RegisterDTO;
 import com.mytuu.mytuu.model.User;
 import com.mytuu.mytuu.service.UserService;
-
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,21 +19,20 @@ public class UserController {
 
     //API for register
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody RegisterDTO registerDTO) {
         try {
-            User savedUser = userService.saveUser(user);
-            return ResponseEntity.ok(savedUser);
-            }
-        catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            User registeredUser = userService.registerUser(registerDTO);
+            return ResponseEntity.ok(registeredUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     //API for update user info
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO info) {
         try {
-            User user = userService.updateUserInfo(id, updatedUser);
+            User user = userService.updateUserInfo(id, info);
             return ResponseEntity.ok(user);
         }
         catch (RuntimeException e) {
@@ -42,12 +42,9 @@ public class UserController {
 
     //API for login
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) {
         try {
-            String identifier = loginRequest.get("identifier");
-            String password = loginRequest.get("password");
-            
-            User authenticatedUser = userService.authenticateUser(identifier, password);
+            User authenticatedUser = userService.authenticateUser(loginRequestDTO.getIdentifier(), loginRequestDTO.getPassword());
             return ResponseEntity.ok(authenticatedUser);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
