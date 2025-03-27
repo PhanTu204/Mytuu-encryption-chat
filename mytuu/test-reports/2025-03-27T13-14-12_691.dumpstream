@@ -1,0 +1,5 @@
+# Created at 2025-03-27T13:14:13.225
+Boot Manifest-JAR contains absolute paths in classpath 'D:\B3 Subjects\Github\Mytuu-encryption-chat\mytuu\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

@@ -1,0 +1,42 @@
+13:14:14.254 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.mytuu.mytuu.MytuuApplicationTests]: MytuuApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:14:14.419 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.mytuu.mytuu.MytuuApplication for test class com.mytuu.mytuu.MytuuApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2025-03-27T13:14:15.062+07:00  INFO 13556 --- [mytuu] [           main] com.mytuu.mytuu.MytuuApplicationTests    : Starting MytuuApplicationTests using Java 23.0.2 with PID 13556 (started by APC in D:\B3 Subjects\Github\Mytuu-encryption-chat\mytuu)
+2025-03-27T13:14:15.064+07:00  INFO 13556 --- [mytuu] [           main] com.mytuu.mytuu.MytuuApplicationTests    : No active profile set, falling back to 1 default profile: "default"
+2025-03-27T13:14:15.990+07:00  INFO 13556 --- [mytuu] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-27T13:14:16.098+07:00  INFO 13556 --- [mytuu] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 1 JPA repository interface.
+2025-03-27T13:14:16.769+07:00  INFO 13556 --- [mytuu] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-27T13:14:16.887+07:00  INFO 13556 --- [mytuu] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-03-27T13:14:16.931+07:00  INFO 13556 --- [mytuu] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-03-27T13:14:17.360+07:00  INFO 13556 --- [mytuu] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-27T13:14:17.400+07:00  INFO 13556 --- [mytuu] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-03-27T13:14:17.782+07:00  INFO 13556 --- [mytuu] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5d01b0d8
+2025-03-27T13:14:17.784+07:00  INFO 13556 --- [mytuu] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-03-27T13:14:17.833+07:00  WARN 13556 --- [mytuu] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-03-27T13:14:17.834+07:00  WARN 13556 --- [mytuu] [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-03-27T13:14:17.856+07:00  INFO 13556 --- [mytuu] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-03-27T13:14:18.920+07:00  INFO 13556 --- [mytuu] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-27T13:14:18.994+07:00  INFO 13556 --- [mytuu] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-27T13:14:20.121+07:00  WARN 13556 --- [mytuu] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-27T13:14:20.955+07:00  INFO 13556 --- [mytuu] [           main] com.mytuu.mytuu.MytuuApplicationTests    : Started MytuuApplicationTests in 6.308 seconds (process running for 7.591)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build what is described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\APC\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
