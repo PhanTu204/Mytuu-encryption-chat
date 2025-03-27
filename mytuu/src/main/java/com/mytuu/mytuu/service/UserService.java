@@ -5,6 +5,7 @@ import com.mytuu.mytuu.dto.UserUpdateDTO;
 import com.mytuu.mytuu.model.User;
 import com.mytuu.mytuu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -35,28 +39,46 @@ public class UserService {
         // Tạo User từ DTO
         User newUser = new User();
         newUser.setUsername(registerDTO.getUsername());
-        newUser.setPassword(registerDTO.getPassword());
+        newUser.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         return userRepository.save(newUser);
     }
 
-    // API cập nhật thông tin user
+
     public User updateUserInfo(Long userId, UserUpdateDTO updateDTO) {
         Optional<User> userOptional = userRepository.findById(userId);
-
+    
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User not exist!");
         }
-
+    
         User existingUser = userOptional.get();
+    
+        // check if email alr exist
+        if (updateDTO.getEmail() != null) {
+            Optional<User> userWithEmail = userRepository.findByEmail(updateDTO.getEmail());
+            if (userWithEmail.isPresent() && !userWithEmail.get().getId().equals(userId)) {
+                throw new RuntimeException("Email already exists!");
+            }
+            existingUser.setEmail(updateDTO.getEmail());
+        }
+    
+        // check if phone number alr exist
+        if (updateDTO.getPhoneNumber() != null) {
+            Optional<User> userWithPhone = userRepository.findByPhoneNumber(updateDTO.getPhoneNumber());
+            if (userWithPhone.isPresent() && !userWithPhone.get().getId().equals(userId)) {
+                throw new RuntimeException("Phone number already exists!");
+            }
+            existingUser.setPhoneNumber(updateDTO.getPhoneNumber());
+        }
+    
         if (updateDTO.getFullName() != null) existingUser.setFullName(updateDTO.getFullName());
-        if (updateDTO.getEmail() != null) existingUser.setEmail(updateDTO.getEmail());
-        if (updateDTO.getPhoneNumber() != null) existingUser.setPhoneNumber(updateDTO.getPhoneNumber());
         if (updateDTO.getDateOfBirth() != null) existingUser.setDateOfBirth(updateDTO.getDateOfBirth());
         if (updateDTO.getGender() != null) existingUser.setGender(updateDTO.getGender());
-
+    
         return userRepository.save(existingUser);
     }
+    
 
     // API đăng nhập 
     public User authenticateUser(String identifier, String password) {
@@ -75,7 +97,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
-        if (!user.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password!");
         }
 

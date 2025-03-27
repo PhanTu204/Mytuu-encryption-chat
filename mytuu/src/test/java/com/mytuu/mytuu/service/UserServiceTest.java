@@ -4,14 +4,12 @@ import com.mytuu.mytuu.dto.RegisterDTO;
 import com.mytuu.mytuu.dto.UserUpdateDTO;
 import com.mytuu.mytuu.model.User;
 import com.mytuu.mytuu.repository.UserRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -19,125 +17,187 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        Mockito.reset(userRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
-    // Test: registerUser
-    // ✅ Test: Đăng ký người dùng khi username đã tồn tại
+    // ✅ Test đăng ký user thành công
+    @Test
+    void registerUser_Success() {
+        // Arrange
+        RegisterDTO registerDTO = new RegisterDTO("newUser", "password123", "password123");
+
+        when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(registerDTO.getPassword())).thenReturn("hashedPassword");
+
+        User savedUser = new User();
+        savedUser.setUsername(registerDTO.getUsername());
+        savedUser.setPassword("hashedPassword");
+
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+
+        // Act
+        User result = userService.registerUser(registerDTO);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("newUser", result.getUsername());
+        assertEquals("hashedPassword", result.getPassword());
+    }
+
+    // ❌ Test đăng ký user thất bại do username đã tồn tại
     @Test
     void registerUser_WhenUsernameExists_ThrowsException() {
-        RegisterDTO registerDTO = new RegisterDTO("existingUser", "password", "password");
+        // Arrange
+        RegisterDTO registerDTO = new RegisterDTO("existingUser", "password123", "password123");
 
         when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.of(new User()));
 
+        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> userService.registerUser(registerDTO));
         assertEquals("Username already exists!", exception.getMessage());
     }
 
-    // ✅ Test: Đăng ký khi mật khẩu không khớp
+    // ❌ Test đăng ký user thất bại do mật khẩu không khớp
     @Test
     void registerUser_WhenPasswordsDoNotMatch_ThrowsException() {
-        RegisterDTO registerDTO = new RegisterDTO("newUser", "password", "wrongPassword");
+        // Arrange
+        RegisterDTO registerDTO = new RegisterDTO("newUser", "password123", "wrongPassword");
 
+        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> userService.registerUser(registerDTO));
         assertEquals("Passwords do not match!", exception.getMessage());
     }
 
-    // ✅ Test: Đăng ký thành công
+
+    // ✅ Test cập nhật user thành công
     @Test
-    void registerUser_SuccessfulRegistration_ReturnsUser() {
-        RegisterDTO registerDTO = new RegisterDTO("newUser", "password", "password");
-        User user = new User();
-        user.setUsername(registerDTO.getUsername());
-        user.setPassword(registerDTO.getPassword());
-
-        when(userRepository.findByUsername(registerDTO.getUsername())).thenReturn(Optional.empty());
-        when(userRepository.save(any(User.class))).thenReturn(user);
-
-        User registeredUser = userService.registerUser(registerDTO);
-
-        assertNotNull(registeredUser);
-        assertEquals("newUser", registeredUser.getUsername());
-    }
-
-    // Test: updateUserInfo
-    // ✅ Test: Cập nhật thông tin user khi không tìm thấy user
-    @Test
-    void updateUserInfo_WhenUserNotFound_ThrowsException() {
-        UserUpdateDTO updateDTO = new UserUpdateDTO();
-        updateDTO.setFullName("New Name");
-
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(RuntimeException.class, () -> userService.updateUserInfo(1L, updateDTO));
-        assertEquals("User not exist!", exception.getMessage());
-    }
-
-    // ✅ Test: Cập nhật thông tin user thành công
-    @Test
-    void updateUserInfo_SuccessfulUpdate_ReturnsUpdatedUser() {
+    void updateUserInfo_Success() {
+        // Arrange
+        Long userId = 1L;
         User existingUser = new User();
-        existingUser.setId(1L);
-        existingUser.setFullName("Old Name");
+        existingUser.setId(userId);
+        existingUser.setUsername("existingUser");
+        existingUser.setEmail("tu@example.com");
 
         UserUpdateDTO updateDTO = new UserUpdateDTO();
-        updateDTO.setFullName("New Name");
+        updateDTO.setEmail("new@example.com");
+        updateDTO.setPhoneNumber("123456789");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.findByEmail(updateDTO.getEmail())).thenReturn(Optional.empty());
+        when(userRepository.findByPhoneNumber(updateDTO.getPhoneNumber())).thenReturn(Optional.empty());
         when(userRepository.save(any(User.class))).thenReturn(existingUser);
 
-        User updatedUser = userService.updateUserInfo(1L, updateDTO);
+        // Act
+        User updatedUser = userService.updateUserInfo(userId, updateDTO);
 
+        // Assert
         assertNotNull(updatedUser);
-        assertEquals("New Name", updatedUser.getFullName());
+        assertEquals("new@example.com", updatedUser.getEmail());
+        assertEquals("123456789", updatedUser.getPhoneNumber());
     }
 
-    // Test: authenticateUser
-    // ✅ Test: Đăng nhập khi user không tồn tại
+    // ❌ Test cập nhật user thất bại do email đã tồn tại
     @Test
-    void authenticateUser_WhenUserNotFound_ThrowsException() {
-        when(userRepository.findByUsername("nonexistent")).thenReturn(Optional.empty());
+    void updateUserInfo_WhenEmailExists_ThrowsException() {
+        // Arrange
+        Long userId = 1L;
+        User existingUser = new User();
+        existingUser.setId(userId);
 
-        Exception exception = assertThrows(RuntimeException.class, () -> userService.authenticateUser("nonexistent", "password"));
-        assertEquals("User not found!", exception.getMessage());
+        User duplicateUser = new User();
+        duplicateUser.setId(2L); // ID hợp lệ khác userId
+
+        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        updateDTO.setEmail("duplicate@example.com");
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.findByEmail(updateDTO.getEmail())).thenReturn(Optional.of(duplicateUser)); // Cần ID hợp lệ
+
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.updateUserInfo(userId, updateDTO));
+        assertEquals("Email already exists!", exception.getMessage());
     }
 
-    // ✅ Test: Đăng nhập khi mật khẩu sai
+    // ❌ Test cập nhật user thất bại do số điện thoại đã tồn tại
     @Test
-    void authenticateUser_WhenPasswordIncorrect_ThrowsException() {
+    void updateUserInfo_WhenPhoneNumberExists_ThrowsException() {
+        // Arrange
+        Long userId = 1L;
+        User existingUser = new User();
+        existingUser.setId(userId);
+    
+        User duplicateUser = new User();
+        duplicateUser.setId(3L); // ID hợp lệ khác userId
+    
+        UserUpdateDTO updateDTO = new UserUpdateDTO();
+        updateDTO.setPhoneNumber("123456789");
+    
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(userRepository.findByPhoneNumber(updateDTO.getPhoneNumber())).thenReturn(Optional.of(duplicateUser)); // Cần ID hợp lệ
+    
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.updateUserInfo(userId, updateDTO));
+        assertEquals("Phone number already exists!", exception.getMessage());
+    }
+
+    
+    // ✅ Test đăng nhập thành công
+    @Test
+    void authenticateUser_Success() {
+        // Arrange
         User user = new User();
         user.setUsername("testUser");
-        user.setPassword("correctPassword");
+        user.setPassword("hashedPassword");
 
         when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("password123", "hashedPassword")).thenReturn(true);
 
+        // Act
+        User authenticatedUser = userService.authenticateUser("testUser", "password123");
+
+        // Assert
+        assertNotNull(authenticatedUser);
+        assertEquals("testUser", authenticatedUser.getUsername());
+    }
+
+    // ❌ Test đăng nhập thất bại do sai mật khẩu
+    @Test
+    void authenticateUser_WhenWrongPassword_ThrowsException() {
+        // Arrange
+        User user = new User();
+        user.setUsername("testUser");
+        user.setPassword("hashedPassword");
+
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("wrongPassword", "hashedPassword")).thenReturn(false);
+
+        // Act & Assert
         Exception exception = assertThrows(RuntimeException.class, () -> userService.authenticateUser("testUser", "wrongPassword"));
         assertEquals("Invalid password!", exception.getMessage());
     }
 
-    // ✅ Test: Đăng nhập thành công
+    // ❌ Test đăng nhập thất bại do không tìm thấy user
     @Test
-    void authenticateUser_SuccessfulLogin_ReturnsUser() {
-        User user = new User();
-        user.setUsername("testUser");
-        user.setPassword("password123");
+    void authenticateUser_WhenUserNotFound_ThrowsException() {
+        // Arrange
+        when(userRepository.findByUsername("nonExistentUser")).thenReturn(Optional.empty());
 
-        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
-
-        User authenticatedUser = userService.authenticateUser("testUser", "password123");
-
-        assertNotNull(authenticatedUser);
-        assertEquals("testUser", authenticatedUser.getUsername());
+        // Act & Assert
+        Exception exception = assertThrows(RuntimeException.class, () -> userService.authenticateUser("nonExistentUser", "password123"));
+        assertEquals("User not found!", exception.getMessage());
     }
 }

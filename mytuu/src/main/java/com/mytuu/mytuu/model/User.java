@@ -40,8 +40,10 @@ public class User {
     private String fullName;
     
     @Email
+    @Column(unique = true)
     private String email;
     
+    @Column(unique = true)
     private String phoneNumber;
     
     @JsonFormat(pattern = "dd-MM-yyyy")
