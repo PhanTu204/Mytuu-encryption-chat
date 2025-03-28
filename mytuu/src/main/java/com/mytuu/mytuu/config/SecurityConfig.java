@@ -22,9 +22,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Tắt CSRF nếu dùng API REST
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless API
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll() // Các API mở tự do
-                .requestMatchers("/api/user/update", "/api/messages/send").authenticated() // Các API cần xác thực
-                .anyRequest().permitAll() // Còn lại mở
+                .requestMatchers("/api/auth/register", "/api/auth/login").permitAll() // Chỉ mở tự do đăng ký & đăng nhập
+                .anyRequest().authenticated() // Các API còn lại phải xác thực
             );
 
         return http.build();
