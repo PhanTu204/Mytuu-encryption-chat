@@ -2,16 +2,16 @@ package com.mytuu.mytuu.service;
 
 import com.mytuu.mytuu.model.User;
 import com.mytuu.mytuu.repository.UserRepository;
+import com.mytuu.mytuu.security.jwt.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class LoginServiceTest {
@@ -22,28 +22,33 @@ class LoginServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private JwtUtil jwtUtil;
+
     @InjectMocks
     private LoginService loginService;
 
     @Test
-    void authenticateUser_ShouldReturnUser_WhenCredentialsAreCorrect() {
+    void authenticateUser_ShouldReturnTokens_WhenCredentialsAreCorrect() {
         User mockUser = new User();
         mockUser.setUsername("testuser");
         mockUser.setPassword("encodedPassword");
 
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(mockUser));
         when(passwordEncoder.matches("password123", "encodedPassword")).thenReturn(true);
+        when(jwtUtil.generateAccessToken("testuser")).thenReturn("mockAccessToken");
+        when(jwtUtil.generateRefreshToken("testuser")).thenReturn("mockRefreshToken");
 
-        User result = loginService.authenticateUser("testuser", "password123");
+        String[] tokens = loginService.authenticateUser("testuser", "password123");
 
-        assertNotNull(result);
-        assertEquals("testuser", result.getUsername());
+        assertNotNull(tokens);
+        assertEquals("mockAccessToken", tokens[0]);
+        assertEquals("mockRefreshToken", tokens[1]);
     }
 
     @Test
     void authenticateUser_ShouldThrowException_WhenUserNotFound() {
         when(userRepository.findByUsername("unknownUser")).thenReturn(Optional.empty());
-
         assertThrows(RuntimeException.class, () -> loginService.authenticateUser("unknownUser", "password123"));
     }
 
