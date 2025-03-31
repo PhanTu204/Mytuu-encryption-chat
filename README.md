@@ -1,5 +1,4 @@
-# Mytuu-encryption-chat-
-# Secure Messaging Web App
+# Mytuu-encryption-chat(Secure Messaging Web App)
 
 ## Project Overview
 This project is a secure messaging web application built with **Spring Boot** as the backend. It features user authentication, registration, JWT-based security, and user information management. The goal is to provide a secure and seamless communication platform.
@@ -11,6 +10,9 @@ This project is a secure messaging web application built with **Spring Boot** as
 - **JUnit & Mockito** (Unit testing)
 - **Postman** (API testing)
 - **Figma** (UI/UX design for the messaging app)
+
+## Frontend Design
+## https://www.figma.com/design/7kYkHJMCqLZPwQQSJUUuxk/Thi%E1%BA%BFt-k%E1%BA%BF-Web-nh%E1%BA%AFn-tin-Mytuu?node-id=0-1&t=vdp8RVlqY9DkPASC-1
 
 ## Features Implemented
 ### 1. User Authentication
