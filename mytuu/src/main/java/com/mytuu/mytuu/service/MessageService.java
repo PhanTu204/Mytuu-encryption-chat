@@ -17,7 +17,7 @@ public class MessageService {
     @Autowired
     private UserRepository userRepository;
 
-    public MessageDTO sendMessageAndReturnDTO(Long conversationId, Long senderId, Long receiverId, String content) {
+    public MessageDTO sendMessage(Long conversationId, Long senderId, Long receiverId, String content) {
         Conversation convo = conversationRepository.findById(conversationId).orElseThrow();
         User sender = userRepository.findById(senderId).orElseThrow();
         User receiver = userRepository.findById(receiverId).orElseThrow();
@@ -43,15 +43,15 @@ public class MessageService {
         return messages.stream().map(this::convertToDTO).toList();
     }
 
-    private MessageDTO convertToDTO(Message msg) {
+    private MessageDTO convertToDTO(Message message) {
         return new MessageDTO(
-            msg.getId(),
-            msg.getSender().getId(),
-            msg.getReceiver().getId(),
-            msg.getContent(),
-            msg.getTimestamp(),
-            msg.isRead(),
-            msg.getConversation().getId()
+            message.getId(),
+            message.getSender().getId(),
+            message.getReceiver().getId(),
+            message.getContent(),
+            message.getTimestamp(),
+            message.isRead(),
+            message.getConversation().getId()
         );
-    }
+    }    
 }

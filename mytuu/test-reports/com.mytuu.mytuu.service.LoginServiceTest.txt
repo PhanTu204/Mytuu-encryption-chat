@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.mytuu.mytuu.service.LoginServiceTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.166 s - in com.mytuu.mytuu.service.LoginServiceTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.969 s - in com.mytuu.mytuu.service.LoginServiceTest

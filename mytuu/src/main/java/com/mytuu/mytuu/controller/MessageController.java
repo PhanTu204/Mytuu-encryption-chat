@@ -16,7 +16,7 @@ public class MessageController {
     @PostMapping
     public ResponseEntity<MessageDTO> sendMessage(@RequestBody MessageRequestDTO dto) {
         return ResponseEntity.ok(
-            messageService.sendMessageAndReturnDTO(
+            messageService.sendMessage(
                 dto.getConversationId(),
                 dto.getSenderId(),
                 dto.getReceiverId(),
