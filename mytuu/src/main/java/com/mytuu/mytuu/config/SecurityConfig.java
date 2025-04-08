@@ -24,17 +24,42 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http
+    //         .csrf(csrf -> csrf.disable())
+    //         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless API
+    //         .authorizeHttpRequests(auth -> auth
+    //             .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Chỉ mở tự do đăng ký & đăng nhập
+    //             .anyRequest().authenticated() // Các API còn lại phải xác thực
+    //         )
+    //         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+    //     return http.build();
+    // }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless API
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Chỉ mở tự do đăng ký & đăng nhập
-                .anyRequest().authenticated() // Các API còn lại phải xác thực
+                .requestMatchers(
+                    "/api/users/register",
+                    "/api/users/login",
+                    "/api/conversations/**",
+                    "/api/messages/**",
+                    "/ws/**",
+                    "/topic/**",
+                    "/app/**"
+                ).permitAll()
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
+    
         return http.build();
     }
+    
+    
 }

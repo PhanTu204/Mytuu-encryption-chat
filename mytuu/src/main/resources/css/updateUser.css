@@ -1,0 +1,145 @@
+/* Base styles */
+* {
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffffff;
+    overflow: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+/* Logo */
+.logo {
+    font-size: 100px;
+    font-family: "Ruluko";
+    color: #686868;
+    margin-bottom: 40px;
+    margin-top: 0;
+    text-align: center;
+    font-weight: 300;
+}
+
+/* Card styles */
+.primary-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    outline: 1px solid #D5D4D4;
+}
+
+/* Form input styles */
+.info-field {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 10px 10px 14px;
+    margin-bottom: 6px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #F6F6F6;
+    padding-right: 40px;
+}
+
+.input-field:hover {
+    color: #444343;
+}
+
+.input-field::placeholder {
+    color: #8B8B8B;
+}
+
+.input-field:focus {
+    border-color: #8B8B8B;
+    outline: none;
+}
+
+/* Gender selection styles */
+.gender-field {
+    display: flex;
+    margin-bottom: 4px;
+    margin-top: 4px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.radio-option {
+    background-color: #F6F6F6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: center;
+}
+
+.radio-option label {
+    color: #8B8B8B;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.radio-option input[type="radio"]:checked + label {
+    color: #000000;
+}
+
+/* Button styles */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, opacity 0.2s;
+}
+
+.btn-save {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    background-color: #4a9ff5;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #686868;
+}
+
+.btn:active {
+    background-color: #1f2022;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    .info-field, .btn, .divider, .identifier-field, .logo, .gender-field {
+        width: 80%;
+    }
+}

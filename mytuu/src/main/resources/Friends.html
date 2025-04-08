@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script> 
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <!-- User Profile -->
+            <div class="profile-icon" id="profile-icon">
+                <img src="https://play-lh.googleusercontent.com/VMPS_t-CGBp-NVqefuMvMOGEDfmovBcGiepmAAF1I9hkdjLOjsfVjEV5d41DTAy3qI_akNaJKTdmaNwMRIs=w240-h480-rw" alt="Profile" class="avatar">
+            </div>
+    
+            <!-- Navigation Icons -->
+            <div class="nav-icons">
+                <div class="nav-icon active">
+                    <i class="fa-solid fa-comment"></i>
+                </div>
+                <div class="nav-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="nav-icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="nav-icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+            </div>
+
+            <div class="nav-icon settings-icon">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+        </div>
+
+        <div class="profile-overlay" id="profile-overlay">
+            <h2>Profile</h2>
+
+        
+            <!-- Form with prefilled values -->
+            <form class="profile-form">
+                <div class="profile-card-container">
+                    <div class="profile-image-wrapper">
+                      <img src="https://play-lh.googleusercontent.com/VMPS_t-CGBp-NVqefuMvMOGEDfmovBcGiepmAAF1I9hkdjLOjsfVjEV5d41DTAy3qI_akNaJKTdmaNwMRIs=w240-h480-rw" alt="Profile Picture" class="avatar">
+                    </div>
+                    <div class="profile-info-wrapper">
+                      <h3 class="profile-name" id="fullname">Phan Việt Tú</h3>
+                      <p class="profile-username" id="username">Phandca204</p>
+                    </div>
+                    <button class="btn-change-photo" type="button">change photo</button>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                  </div>
+
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input type="text" id="full-name" class="inf-field" value="Phan Việt Tú" disabled>
+                </div>
+        
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="inf-field" value="phanviettu2k4@gmail.com" disabled>
+                </div>
+        
+                <div class="form-group">
+                    <label for="phoneNumber">Phone</label>
+                    <input type="tel" id="phone" class="inf-field" value="+84 123 456 789" disabled>
+                </div>
+        
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" class="inf-field" value="2004-11-04" disabled>
+                </div>
+                
+                <div>
+                    <label for="gender" style="margin-left: 10px; font-weight: 700; font-size: 16px;">Gender</label>
+                    <div class="info-field gender-field">
+                        <div class="radio-option-profile">
+                            <input type="radio" name="gender" id="male" value="Male" checked disabled>
+                            <label for="male">Male</label>
+                        </div>
+                        <div class="radio-option-profile">
+                            <input type="radio" name="gender" id="female" value="Female" disabled>
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="radio-option-profile">
+                            <input type="radio" name="gender" id="other" value="Other" disabled>
+                            <label for="other">Other</label>
+                        </div>
+                    </div>
+                </div>
+                
+        
+                <!-- Edit Button -->
+                <div class="edit-container">
+                    <button type="button" id="btn-edit" class="btn-edit">Edit</button>
+                </div>
+            </form>
+        </div>
+  
+            
+
+        <!-- Nav bar -->
+        <div class="friend-menu">
+            <div class="header" style="border-width: 0px;">
+                <h1>Friends</h1>
+            </div>    
+            <div class="friend-item active">
+              <i class="fa-solid fa-user"></i>
+              <span>Friends list</span>
+            </div>
+            <div class="friend-item">
+              <i class="fa-solid fa-users"></i>
+              <span>Groups & Communities</span>
+            </div>
+            <div class="friend-item">
+              <i class="fa-regular fa-user"></i>
+              <span>Friend Requests</span>
+              <span class="badge">1</span>
+            </div>
+            <div class="friend-item">
+              <i class="fa-solid fa-user-group"></i>
+              <span>Group & Community Invitations</span>
+              <span class="badge">1</span>
+            </div>
+          </div>          
+
+                <!-- Chat Area -->
+                <div class="friends-container">
+                    <!-- Friends List Header -->
+                    <div class="friends-header">
+                        <div class="header-title">
+                            <i class="fa-solid fa-user"></i>
+                            <h2>Friends list</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-section">
+                        <div class="search-bar">
+                            <i class="fa-solid fa-search"></i>
+                            <input type="text" placeholder="Searching">
+                        </div>
+                        <div class="action-buttons">
+                            <button class="add-button">
+                                <i class="fa-solid fa-user-plus"></i>
+                            </button>
+                            <button class="group-button">
+                                <i class="fa-solid fa-users-medical"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Friends List -->
+                    <div class="friends-list">
+                        <div class="friends-item active">
+                            <img src="https://play-lh.googleusercontent.com/VMPS_t-CGBp-NVqefuMvMOGEDfmovBcGiepmAAF1I9hkdjLOjsfVjEV5d41DTAy3qI_akNaJKTdmaNwMRIs=w240-h480-rw" alt="Hoàng Hà My" class="friends-avatar">
+                            <div class="friends-name">Hoàng Hà My</div>
+                        </div>
+                        
+                        <div class="friends-item">
+                            <img src="https://i.pravatar.cc/150?img=2" alt="Nguyễn Dũng" class="friends-avatar">
+                            <div class="friends-name">Nguyễn Dũng</div>
+                        </div>
+                        
+                        <div class="friends-item">
+                            <img src="https://i.pravatar.cc/150?img=3" alt="Nguyễn Trọng Khang" class="friends-avatar">
+                            <div class="friends-name">Nguyễn Trọng Khang</div>
+                        </div>
+                        
+                        <div class="friends-item">
+                            <img src="https://i.pravatar.cc/150?img=4" alt="Mai Hồng Vũ" class="friends-avatar">
+                            <div class="friends-name">Mai Hồng Vũ</div>
+                        </div>
+                        
+                        <div class="friends-item">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Hứa Quang Hán" class="friends-avatar">
+                            <div class="friends-name">Hứa Quang Hán</div>
+                        </div>
+                    </div>
+                </div>
+            <!-- Right sidebar -->
+            <div class="profile-panel" id="profile-panel" >
+                <div class="profile-header">
+                    <img src="https://play-lh.googleusercontent.com/VMPS_t-CGBp-NVqefuMvMOGEDfmovBcGiepmAAF1I9hkdjLOjsfVjEV5d41DTAy3qI_akNaJKTdmaNwMRIs=w240-h480-rw" alt="Hoàng Hà My" class="avatar large">
+                    <h2>Hoàng Hà My</h2>
+                    <div class="profile-actions">
+                        <div class="action">
+                            <i class="fa-solid fa-bell-slash btn-actions" style="padding-left: 7.5px; padding-right: 7.5px;"></i>
+                            <span>Mute</span>
+                        </div>
+                        <div class="action">
+                            <i class="fa-solid fa-search btn-actions    "></i>
+                            <span>Find</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-options">
+                    <div class="option">
+                        <div class="option-left">
+                            <i class="fa-regular fa-image"></i>
+                            <span>Images/Videos</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-left">
+                            <i class="fa-regular fa-file"></i>
+                            <span>Files</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-left">
+                            <i class="fa-solid fa-link"></i>
+                            <span>Links</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-left">
+                            <i class="fa-solid fa-palette"></i>
+                            <span>Design</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="option">
+                        <div class="option-left">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Security</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-options">
+                        <div class="sub-option">
+                            <i class="fa-solid fa-bell-slash"></i>
+                            <span>Mute notifications</span>
+                        </div>
+
+                        <div class="sub-option">
+                            <i class="fa-regular fa-clock"></i>
+                            <span>Disappearing messages</span>
+                        </div>
+
+                        <div class="sub-option">
+                            <i class="fa-solid fa-flag"></i>
+                            <span>Report</span>
+                        </div>
+
+                        <div class="sub-option">
+                            <i class="fa-solid fa-ban"></i>
+                            <span>Block</span>
+                        </div>
+
+                        <div class="sub-option delete">
+                            <i class="fa-regular fa-trash-can"></i>
+                            <span>Delete</span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>

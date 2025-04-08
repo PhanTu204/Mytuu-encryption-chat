@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ruluko&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Ruluko&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/updateUser.css">
+    <script src="js/script.js" defer></script> 
+    <title>Mytuu - Update Information</title>
+</head>
+<body>
+    <div class="container">
+        <div class="primary-card">
+            <h1 class="logo">Mytuu</h1>
+                <div class="info-field">
+                    <input type="text" class="input-field" id="fullname" placeholder="Full Name">
+                </div>
+                <div class="info-field">
+                    <input type="text" class="input-field" id="email" placeholder="Email">
+                </div>
+                <div class="info-field">
+                    <input type="email" class="input-field" id="phonenumber" placeholder="Phone Number">
+                </div>
+                <div class="info-field" style="height: 47px">
+                    <input type="date" class="input-field" id="dob" style="padding-right: 10px;" value="">
+                </div>
+                <div class="info-field gender-field">
+                    <div class="radio-option">
+                        <input type="radio" name="gender" id="male" value="Male" style="margin-top: 0px; margin-right: 0px;">
+                        <label for="male">Male</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="gender" id="female" value="Female" style="margin-top: 0px; margin-right: 0px;">
+                        <label for="female">Female</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="gender" id="other" value="Other" style="margin-top: 0px; margin-right: 0px;">
+                        <label for="other">Other</label>
+                    </div>
+                </div>
+
+            <button class="btn btn-save">Save Information</button>
+        </div>
+    </div>
+</body>
+</html>
